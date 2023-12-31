@@ -1,28 +1,14 @@
 import ThreadList from "../components/ThreadList";
+import ForumThreadService from "../services/ForumThreadService";
+import { IForumThread } from "../type/ForumThread";
 import React from "react";
 
-import axios from "axios";
-
-export interface forumThreadsTemplate {
-    id: number;
-    title: string;
-    description: string;
-    upvotes: number;
-    [key: string]: unknown;
-}
-
-const API_URL = "http://localhost:3000/api/v1/forum_threads";
-
-function getThreads() {
-    return axios.get(API_URL).then((response) => response.data);
-}
-
 const Home: React.FC = () => {
-    const [forumThreads, setForumThreads] = React.useState<forumThreadsTemplate[]>([]);
+    const [forumThreads, setForumThreads] = React.useState<IForumThread[]>([]);
 
     React.useEffect(() => {
         let mounted = true;
-        getThreads().then((forumThread) => {
+        ForumThreadService.getAllThreads().then((forumThread) => {
             if (mounted) {
                 setForumThreads(forumThread);
             }
