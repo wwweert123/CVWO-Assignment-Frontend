@@ -1,6 +1,6 @@
 import ThreadList from "../components/ThreadList";
 import ForumThreadService from "../services/ForumThreadService";
-import { IForumThread } from "../type/ForumThread";
+import { IForumThread, IThreadInfo } from "../type/ForumThread";
 import React from "react";
 
 import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, TextField } from "@mui/material";
@@ -27,15 +27,9 @@ const Home: React.FC = () => {
             upvotes: 0,
         };
         ForumThreadService.createNewThread(data).then((response) => {
-            setForumThreads([
-                ...forumThreads,
-                {
-                    id: response.data.id,
-                    title: response.data.title,
-                    description: response.data.description,
-                    upvotes: response.data.upvotes,
-                },
-            ]);
+            if (response) {
+                setForumThreads([...forumThreads, response]);
+            }
         });
         setForumform(initialFormState);
         setOpenThreadForm(false);
@@ -47,7 +41,7 @@ const Home: React.FC = () => {
         upvotes: 0,
     };
 
-    const [forumForm, setForumform] = React.useState<IForumThread>(initialFormState);
+    const [forumForm, setForumform] = React.useState<IThreadInfo>(initialFormState);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -59,7 +53,7 @@ const Home: React.FC = () => {
         let mounted = true;
         ForumThreadService.getAllThreads().then((fetchedForumThread) => {
             if (mounted) {
-                setForumThreads(fetchedForumThread);
+                setForumThreads(fetchedForumThread.data);
             }
         });
         return () => {
