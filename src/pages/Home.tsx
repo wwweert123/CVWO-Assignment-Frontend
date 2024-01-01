@@ -20,17 +20,52 @@ const Home: React.FC = () => {
         setOpenThreadForm(false);
     };
 
+    const handleSubmitNewThread = () => {
+        const data = {
+            title: forumForm.title,
+            description: forumForm.description,
+            upvotes: 0,
+        };
+        ForumThreadService.createNewThread(data).then((response) => {
+            setForumThreads([
+                ...forumThreads,
+                {
+                    id: response.data.id,
+                    title: response.data.title,
+                    description: response.data.description,
+                    upvotes: response.data.upvotes,
+                },
+            ]);
+        });
+        setForumform(initialFormState);
+        setOpenThreadForm(false);
+    };
+
+    const initialFormState = {
+        title: "",
+        description: "",
+        upvotes: 0,
+    };
+
+    const [forumForm, setForumform] = React.useState<IForumThread>(initialFormState);
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        console.log(name);
+        setForumform({ ...forumForm, [name]: value });
+    };
+
     React.useEffect(() => {
         let mounted = true;
-        ForumThreadService.getAllThreads().then((forumThread) => {
+        ForumThreadService.getAllThreads().then((fetchedForumThread) => {
             if (mounted) {
-                setForumThreads(forumThread);
+                setForumThreads(fetchedForumThread);
             }
         });
         return () => {
             mounted = false;
         };
-    }, []);
+    }, [forumThreads.length]);
 
     return (
         <>
@@ -52,9 +87,12 @@ const Home: React.FC = () => {
                         margin="dense"
                         id="name"
                         label="Title"
+                        name="title"
                         type="text"
                         fullWidth
                         variant="standard"
+                        value={forumForm.title}
+                        onChange={handleInputChange}
                     />
                     <TextField
                         multiline
@@ -62,14 +100,17 @@ const Home: React.FC = () => {
                         margin="dense"
                         id="name"
                         label="Description"
+                        name="description"
                         type="text"
                         fullWidth
                         variant="filled"
+                        value={forumForm.description}
+                        onChange={handleInputChange}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Submit</Button>
+                    <Button onClick={handleSubmitNewThread}>Submit</Button>
                 </DialogActions>
             </Dialog>
         </>

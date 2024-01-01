@@ -19,7 +19,7 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                 </li>
                 {forumThreads.map((forumThread) => {
                     return (
-                        <li key={forumThread.id}>
+                        <li key={forumThread.id as number}>
                             <h2>{forumThread.title}</h2>
                             <p>{forumThread.description}</p>
                         </li>
