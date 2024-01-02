@@ -22,4 +22,22 @@ export type CreateThreadResponse = {
 
 export type GetSingleThreadResponse = {
     data: IForumThread;
+    included: ICommentInfo[];
+};
+
+export type ICommentAttribs = {
+    text: string;
+    author: string;
+    forum_thread_id: number;
+};
+
+export type ICommentInfo = {
+    id: number;
+    type: string;
+    attributes: ICommentAttribs;
+    [key: string]: unknown;
+};
+
+export type CreateCommentResponse = {
+    data: ICommentInfo;
 };

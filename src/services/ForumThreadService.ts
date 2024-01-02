@@ -5,6 +5,8 @@ import {
     IForumThread,
     IThreadInfo,
     GetSingleThreadResponse,
+    ICommentAttribs,
+    CreateCommentResponse,
 } from "../type/ForumThread";
 
 const getAllThreads = async () => {
@@ -37,10 +39,21 @@ const createNewThread = async (bodydata: IThreadInfo) => {
     }
 };
 
+const createNewComment = async (bodydata: ICommentAttribs) => {
+    try {
+        const { data, status } = await http.post<CreateCommentResponse>("/comments", bodydata);
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getAllThreads,
     createNewThread,
     getSingleThread,
+    createNewComment,
 };
 
 export default ForumThreadService;
