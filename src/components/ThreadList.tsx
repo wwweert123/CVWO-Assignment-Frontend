@@ -34,7 +34,7 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                                 <TableCell align="right">
                                     <Button variant="contained">
                                         <Link
-                                            to={"/forum_threads/${forumThread.id`}"}
+                                            to={`/forum_threads/${forumThread.id}`}
                                             style={{ textDecoration: "none" }}
                                         >
                                             View Thread

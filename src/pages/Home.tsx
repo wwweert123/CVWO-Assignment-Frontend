@@ -52,7 +52,7 @@ const Home: React.FC = () => {
     React.useEffect(() => {
         let mounted = true;
         ForumThreadService.getAllThreads().then((fetchedForumThread) => {
-            if (mounted) {
+            if (mounted && fetchedForumThread) {
                 setForumThreads(fetchedForumThread.data);
             }
         });

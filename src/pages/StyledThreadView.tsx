@@ -1,9 +1,14 @@
 import BasicCommentList from "../components/CommentList";
+// import { IForumThread } from "../type/ForumThread";
 import { Button, Card, CardContent, Fade, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
 
 import React, { useState } from "react";
+
+// type Props = {
+//     forumThread: IForumThread;
+// };
 
 const StyledThreadView: React.FC = () => {
     const [isShowTips, setIsShowTips] = useState(false);
@@ -37,7 +42,7 @@ const StyledThreadView: React.FC = () => {
                 <CardContent>
                     <Typography component="p">{"Viewing thread:"}</Typography>
                     <Typography variant="h5" component="h5">
-                        {"Inspirational Quotes"}
+                        {}
                     </Typography>
                     <Typography color="textSecondary" gutterBottom>
                         {"by Aiken"}

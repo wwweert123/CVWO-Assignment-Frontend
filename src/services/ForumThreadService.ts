@@ -1,5 +1,11 @@
 import http from "../http-common";
-import { CreateThreadResponse, GetAllThreadsResponse, IForumThread, IThreadInfo } from "../type/ForumThread";
+import {
+    CreateThreadResponse,
+    GetAllThreadsResponse,
+    IForumThread,
+    IThreadInfo,
+    GetSingleThreadResponse,
+} from "../type/ForumThread";
 
 const getAllThreads = async () => {
     try {
@@ -9,7 +15,16 @@ const getAllThreads = async () => {
     } catch (error) {
         console.log(error);
     }
-    return http.get<GetAllThreadsResponse>("/forum_threads").then((response) => response.data);
+};
+
+const getSingleThread = async (id: string) => {
+    try {
+        const { data, status } = await http.get<GetSingleThreadResponse>(`/forum_threads/${id}`);
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const createNewThread = async (bodydata: IThreadInfo) => {
@@ -25,6 +40,7 @@ const createNewThread = async (bodydata: IThreadInfo) => {
 const ForumThreadService = {
     getAllThreads,
     createNewThread,
+    getSingleThread,
 };
 
 export default ForumThreadService;

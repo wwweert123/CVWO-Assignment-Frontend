@@ -19,3 +19,7 @@ export type GetAllThreadsResponse = {
 export type CreateThreadResponse = {
     data: IForumThread;
 };
+
+export type GetSingleThreadResponse = {
+    data: IForumThread;
+};
