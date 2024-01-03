@@ -4,7 +4,7 @@ import { IForumThread } from "../type/ForumThread";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button } from "@mui/material";
+import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button, Stack } from "@mui/material";
 
 type Props = {
     forumThreads: IForumThread[];
@@ -12,8 +12,8 @@ type Props = {
 
 const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
     return (
-        <>
-            <div style={{ width: "25vw", margin: "auto", textAlign: "center" }}>
+        <Stack spacing={2}>
+            {/* <div style={{ width: "25vw", margin: "auto", textAlign: "center" }}>
                 <h4>{"Welcome to my forum! Take a look!"}</h4>
                 <ul>
                     <li>
@@ -21,7 +21,8 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                         {" by Aiken"}
                     </li>
                 </ul>
-            </div>
+            </div> */}
+            <Typography variant="h6">{"Welcome to my forum! Take a look!"}</Typography>
             <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableBody>
@@ -47,7 +48,7 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </Stack>
     );
 };
 

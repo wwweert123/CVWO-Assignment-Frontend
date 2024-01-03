@@ -3,7 +3,16 @@ import ForumThreadService from "../services/ForumThreadService";
 import { IForumThread, IThreadInfo } from "../type/ForumThread";
 import React from "react";
 
-import { Button, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, TextField } from "@mui/material";
+import {
+    Button,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Fab,
+    Stack,
+    TextField,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Dialog from "@mui/material/Dialog";
 
@@ -62,9 +71,7 @@ const Home: React.FC = () => {
     }, [forumThreads.length]);
 
     return (
-        <>
-            <h3>{"Welcome to Frederick's Forum! Feel Free to Browse around and participate in discussions."}</h3>
-            <br />
+        <Stack spacing={2}>
             <ThreadList forumThreads={forumThreads} />
             <Fab color="primary" aria-label="add" variant="extended" size="medium" onClick={handleClickOpen}>
                 <AddIcon />
@@ -116,7 +123,7 @@ const Home: React.FC = () => {
                     <Button onClick={handleSubmitNewThread}>Submit</Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Stack>
     );
 };
 
