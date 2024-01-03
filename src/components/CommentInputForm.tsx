@@ -18,7 +18,15 @@ const CommentInputForm: React.FC<Props> = ({
 }) => {
     return (
         // <Dialog fullScreen open={openThreadForm} onClose={handleClose}>
-        <Dialog open={openCommentForm} onClose={handleClose}>
+        <Dialog
+            open={openCommentForm}
+            onClose={handleClose}
+            PaperProps={{
+                style: {
+                    backgroundColor: "#212B36",
+                },
+            }}
+        >
             <DialogTitle>Add your comments!</DialogTitle>
             <DialogContent>
                 <DialogContentText>Your name will be displayed together with your comment</DialogContentText>

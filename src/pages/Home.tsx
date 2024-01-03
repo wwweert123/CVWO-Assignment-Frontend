@@ -70,7 +70,16 @@ const Home: React.FC = () => {
                 <AddIcon />
                 Add new thread
             </Fab>
-            <Dialog fullScreen open={openThreadForm} onClose={handleClose}>
+            <Dialog
+                fullScreen
+                open={openThreadForm}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        backgroundColor: "#212B36",
+                    },
+                }}
+            >
                 <DialogTitle>Create a new thread!</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
