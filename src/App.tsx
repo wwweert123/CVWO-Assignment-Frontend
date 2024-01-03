@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 // import StyledThreadView from "./pages/StyledThreadView";
 import ThreadView from "./pages/ThreadView";
 import ThemeProvider from "./theme";
+import { AuthProvider } from "./context/AuthProvider";
 import DashboardLayout from "./layout/DashboardLayout";
 import React from "react";
 import "./App.css";
@@ -12,16 +13,18 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <ThemeProvider>
-                <BrowserRouter>
-                    <Routes>
-                        <Route element={<DashboardLayout />}>
-                            {/* <Route path="/thread/1" element={<BasicThreadView />} />
+                <AuthProvider>
+                    <BrowserRouter>
+                        <Routes>
+                            <Route element={<DashboardLayout />}>
+                                {/* <Route path="/thread/1" element={<BasicThreadView />} />
                         <Route path="/thread/1/styled" element={<StyledThreadView />} /> */}
-                            <Route path="/" element={<Home />} />
-                            <Route path="/forum_threads/:id" element={<ThreadView />} />
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/forum_threads/:id" element={<ThreadView />} />
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
+                </AuthProvider>
             </ThemeProvider>
         </div>
     );

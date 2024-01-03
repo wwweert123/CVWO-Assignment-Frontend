@@ -1,3 +1,4 @@
+import useAuth from "../hooks/useAuth";
 import * as React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
@@ -7,9 +8,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Stack } from "@mui/material";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Header() {
+    const { auth, setAuth } = useAuth();
+
     const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
     const [author, setAuthor] = useState<string>();
 
@@ -26,6 +30,13 @@ export default function Header() {
         setAuthor(value);
     };
 
+    const handleSetUsername = () => {
+        if (author) {
+            setAuth({ author });
+        }
+        handleClose();
+    };
+
     return (
         <>
             <Box sx={{ flexGrow: 1 }}>
@@ -38,7 +49,14 @@ export default function Header() {
                             {"Frederick's Forum"}
                         </Typography>
                         <Button color="inherit" onClick={handleOpen}>
-                            Login
+                            {auth.author == "" ? (
+                                "Login"
+                            ) : (
+                                <Stack direction="row" spacing={1}>
+                                    <AccountCircle />
+                                    <Typography variant="body2">{auth.author}</Typography>
+                                </Stack>
+                            )}
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -71,7 +89,7 @@ export default function Header() {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Login</Button>
+                    <Button onClick={handleSetUsername}>Login</Button>
                 </DialogActions>
             </Dialog>
         </>
