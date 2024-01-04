@@ -2,6 +2,8 @@ import { ICommentInfo, IThreadInfo } from "../type/ForumThread";
 import ForumThreadService from "../services/ForumThreadService";
 import CommentInputForm from "../components/CommentInputForm";
 import ThreadCommentList from "../components/ThreadCommentList";
+import NoUsernameAlertDialog from "../components/NoUsernameAlertDialog";
+import useAuth from "../hooks/useAuth";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
@@ -13,6 +15,9 @@ const ThreadView: React.FC = () => {
         description: "",
         upvotes: 0,
     };
+
+    const { auth } = useAuth();
+
     const [thread, setThread] = useState<IThreadInfo>(initialFormState);
     const [commentArr, setCommentArr] = useState<ICommentInfo[]>([]);
 
@@ -34,7 +39,23 @@ const ThreadView: React.FC = () => {
         setCommentText(value);
     };
 
+    const [noUsernameAlert, setNoUsernameAlert] = React.useState(false);
+
+    const handleOpenNoUsernameAlert = () => {
+        setNoUsernameAlert(true);
+    };
+
+    const handleCloseNoUsernameAlert = () => {
+        setNoUsernameAlert(false);
+    };
+
     const handleSubmitNewComment = () => {
+        if (auth.author == "") {
+            handleClose();
+            console.log("No username found");
+            handleOpenNoUsernameAlert();
+            return;
+        }
         if (!thread_id) {
             return;
         }
@@ -103,6 +124,7 @@ const ThreadView: React.FC = () => {
                 handleSubmitNewComment={handleSubmitNewComment}
                 commentText={commentText}
             />
+            <NoUsernameAlertDialog open={noUsernameAlert} handleClose={handleCloseNoUsernameAlert} />
         </Container>
     );
 };

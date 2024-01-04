@@ -1,6 +1,8 @@
 import ThreadList from "../components/ThreadList";
 import ForumThreadService from "../services/ForumThreadService";
+import NoUsernameAlertDialog from "../components/NoUsernameAlertDialog";
 import { IForumThread, IThreadInfo } from "../type/ForumThread";
+import useAuth from "../hooks/useAuth";
 import React from "react";
 
 import {
@@ -17,9 +19,21 @@ import AddIcon from "@mui/icons-material/Add";
 import Dialog from "@mui/material/Dialog";
 
 const Home: React.FC = () => {
+    const { auth } = useAuth();
+
     const [forumThreads, setForumThreads] = React.useState<IForumThread[]>([]);
 
     const [openThreadForm, setOpenThreadForm] = React.useState(false);
+
+    const [noUsernameAlert, setNoUsernameAlert] = React.useState(false);
+
+    const handleOpenNoUsernameAlert = () => {
+        setNoUsernameAlert(true);
+    };
+
+    const handleCloseNoUsernameAlert = () => {
+        setNoUsernameAlert(false);
+    };
 
     const handleClickOpen = () => {
         setOpenThreadForm(true);
@@ -30,6 +44,12 @@ const Home: React.FC = () => {
     };
 
     const handleSubmitNewThread = () => {
+        if (auth.author == "") {
+            setOpenThreadForm(false);
+            console.log("No username found");
+            handleOpenNoUsernameAlert();
+            return;
+        }
         const data = {
             title: forumForm.title,
             description: forumForm.description,
@@ -123,6 +143,7 @@ const Home: React.FC = () => {
                     <Button onClick={handleSubmitNewThread}>Submit</Button>
                 </DialogActions>
             </Dialog>
+            <NoUsernameAlertDialog open={noUsernameAlert} handleClose={handleCloseNoUsernameAlert} />
         </Stack>
     );
 };
