@@ -7,7 +7,7 @@ import useAuth from "../hooks/useAuth";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Card, Container, Stack, Typography, Divider, Button } from "@mui/material";
+import { Card, Container, Stack, Typography, Divider, Button, CardContent } from "@mui/material";
 
 const ThreadView: React.FC = () => {
     const initialFormState = {
@@ -64,6 +64,7 @@ const ThreadView: React.FC = () => {
             forum_thread_id: +thread_id,
             author_id: auth.id,
             author: undefined,
+            created_at: undefined,
         };
         ForumThreadService.createNewComment(data).then((resp) => {
             if (resp) {
@@ -103,10 +104,12 @@ const ThreadView: React.FC = () => {
                         // ...sx,
                     }}
                 >
-                    <Typography variant="h5">{thread.title}</Typography>
-                    <Divider />
-                    <Typography variant="subtitle1">{thread.description}</Typography>
-                    <Typography>{thread.upvotes}</Typography>
+                    <CardContent>
+                        <Typography variant="h5">{thread.title}</Typography>
+                        <Divider />
+                        <Typography variant="subtitle1">{thread.description}</Typography>
+                        <Typography>{thread.upvotes + " Upvotes"}</Typography>
+                    </CardContent>
                 </Card>
                 <Button variant="contained" onClick={handleOpenForm}>
                     Add Comment

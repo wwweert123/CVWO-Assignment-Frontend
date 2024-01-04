@@ -40,10 +40,10 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
                     {comment.attributes.text}
                 </Typography>
                 <Typography color="textSecondary" className={classes.metadata} gutterBottom>
-                    {"Posted by " +
-                        comment.attributes.author +
-                        " on " +
-                        comment.attributes.forum_thread_id.toLocaleString()}
+                    {"Posted by " + comment.attributes.author?.name + " on "}
+                    {comment.attributes?.created_at
+                        ? new Date(Date.parse(comment.attributes?.created_at)).toLocaleString()
+                        : ""}
                 </Typography>
             </CardContent>
         </Card>

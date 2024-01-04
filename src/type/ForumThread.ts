@@ -30,6 +30,7 @@ export type ICommentAttribs = {
     forum_thread_id: number;
     author: CreateAuthorResponse | undefined;
     author_id: number | undefined;
+    created_at: string | undefined;
 };
 
 export type ICommentInfo = {
