@@ -36,8 +36,9 @@ export default function Header() {
             ForumThreadService.createNewAuthor(author).then((response) => {
                 if (response?.name) {
                     const fetchedAuthor = response.name;
+                    const fetchedId = response.id;
                     console.log(fetchedAuthor);
-                    setAuth({ author: fetchedAuthor });
+                    setAuth({ author: fetchedAuthor, id: fetchedId });
                 }
             });
         }

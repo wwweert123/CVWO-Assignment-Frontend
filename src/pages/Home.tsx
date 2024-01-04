@@ -54,6 +54,7 @@ const Home: React.FC = () => {
             title: forumForm.title,
             description: forumForm.description,
             upvotes: 0,
+            author_id: auth.id,
         };
         ForumThreadService.createNewThread(data).then((response) => {
             if (response) {

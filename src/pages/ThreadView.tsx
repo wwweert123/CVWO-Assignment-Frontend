@@ -61,8 +61,9 @@ const ThreadView: React.FC = () => {
         }
         const data = {
             text: commentText,
-            author: "",
             forum_thread_id: +thread_id,
+            author_id: auth.id,
+            author: undefined,
         };
         ForumThreadService.createNewComment(data).then((resp) => {
             if (resp) {

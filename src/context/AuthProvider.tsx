@@ -7,6 +7,7 @@ type Props = {
 
 interface Auth {
     author: string;
+    id: number | undefined;
 }
 
 interface AuthContextInterface {
@@ -17,12 +18,13 @@ interface AuthContextInterface {
 const AuthContext = createContext<AuthContextInterface>({
     auth: {
         author: "",
+        id: undefined,
     },
     setAuth: () => {},
 });
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
-    const [auth, setAuth] = useState<Auth>({ author: "" });
+    const [auth, setAuth] = useState<Auth>({ author: "", id: undefined });
     return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };
 
