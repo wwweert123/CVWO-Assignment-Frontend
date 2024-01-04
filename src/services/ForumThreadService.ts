@@ -7,6 +7,7 @@ import {
     GetSingleThreadResponse,
     ICommentAttribs,
     CreateCommentResponse,
+    CreateAuthorResponse,
 } from "../type/ForumThread";
 
 const getAllThreads = async () => {
@@ -49,11 +50,25 @@ const createNewComment = async (bodydata: ICommentAttribs) => {
     }
 };
 
+const createNewAuthor = async (username: string) => {
+    const bodydata = {
+        name: username,
+    };
+    try {
+        const { data, status } = await http.post<CreateAuthorResponse>("authors", bodydata);
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getAllThreads,
     createNewThread,
     getSingleThread,
     createNewComment,
+    createNewAuthor,
 };
 
 export default ForumThreadService;

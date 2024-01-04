@@ -41,3 +41,9 @@ export type ICommentInfo = {
 export type CreateCommentResponse = {
     data: ICommentInfo;
 };
+
+export type CreateAuthorResponse = {
+    id: number;
+    name: string;
+    [key: string]: unknown;
+};

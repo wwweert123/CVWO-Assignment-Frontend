@@ -1,4 +1,5 @@
 import useAuth from "../hooks/useAuth";
+import ForumThreadService from "../services/ForumThreadService";
 import * as React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
@@ -32,7 +33,13 @@ export default function Header() {
 
     const handleSetUsername = () => {
         if (author) {
-            setAuth({ author });
+            ForumThreadService.createNewAuthor(author).then((response) => {
+                if (response?.name) {
+                    const fetchedAuthor = response.name;
+                    console.log(fetchedAuthor);
+                    setAuth({ author: fetchedAuthor });
+                }
+            });
         }
         handleClose();
     };
