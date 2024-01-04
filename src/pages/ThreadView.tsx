@@ -14,6 +14,8 @@ const ThreadView: React.FC = () => {
         title: "",
         description: "",
         upvotes: 0,
+        created_at: undefined,
+        author: undefined,
     };
 
     const { auth } = useAuth();
@@ -109,6 +111,10 @@ const ThreadView: React.FC = () => {
                         <Divider />
                         <Typography variant="subtitle1">{thread.description}</Typography>
                         <Typography>{thread.upvotes + " Upvotes"}</Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                            {"Posted by " + thread.author?.name + " on "}
+                            {thread.created_at ? new Date(Date.parse(thread.created_at)).toLocaleString() : ""}
+                        </Typography>
                     </CardContent>
                 </Card>
                 <Button variant="contained" onClick={handleOpenForm}>

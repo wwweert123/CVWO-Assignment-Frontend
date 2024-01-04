@@ -55,6 +55,8 @@ const Home: React.FC = () => {
             description: forumForm.description,
             upvotes: 0,
             author_id: auth.id,
+            created_at: undefined,
+            author: undefined,
         };
         ForumThreadService.createNewThread(data).then((response) => {
             if (response) {
@@ -69,6 +71,8 @@ const Home: React.FC = () => {
         title: "",
         description: "",
         upvotes: 0,
+        created_at: undefined,
+        author: undefined,
     };
 
     const [forumForm, setForumform] = React.useState<IThreadInfo>(initialFormState);

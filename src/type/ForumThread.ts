@@ -2,6 +2,8 @@ export type IThreadInfo = {
     title: string;
     description: string;
     upvotes: number;
+    created_at: string | undefined;
+    author: CreateAuthorResponse | undefined;
     [key: string]: unknown;
 };
 
