@@ -1,5 +1,5 @@
-import useAuth from "../hooks/useAuth";
-import ForumThreadService from "../services/ForumThreadService";
+import useAuth from "../../hooks/useAuth";
+import ForumThreadService from "../../services/ForumThreadService";
 import * as React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";

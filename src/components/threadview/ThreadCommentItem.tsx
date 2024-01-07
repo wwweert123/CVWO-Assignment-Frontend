@@ -1,4 +1,4 @@
-import { ICommentInfo } from "../type/ForumThread";
+import { ICommentInfo } from "../../types/ForumThread";
 
 import React from "react";
 import { Card, CardContent, Typography } from "@mui/material";

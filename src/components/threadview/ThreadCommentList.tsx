@@ -1,5 +1,5 @@
 import ThreadCommentItem from "./ThreadCommentItem";
-import { ICommentInfo } from "../type/ForumThread";
+import { ICommentInfo } from "../../types/ForumThread";
 import React from "react";
 import { Stack } from "@mui/material";
 

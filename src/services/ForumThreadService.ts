@@ -3,12 +3,12 @@ import {
     CreateThreadResponse,
     GetAllThreadsResponse,
     IForumThread,
-    IThreadInfo,
     GetSingleThreadResponse,
-    ICommentAttribs,
     CreateCommentResponse,
     CreateAuthorResponse,
-} from "../type/ForumThread";
+    INewThreadInfo,
+    INewComment,
+} from "../types/ForumThread";
 
 const getAllThreads = async () => {
     try {
@@ -30,7 +30,7 @@ const getSingleThread = async (id: string) => {
     }
 };
 
-const createNewThread = async (bodydata: IThreadInfo) => {
+const createNewThread = async (bodydata: INewThreadInfo) => {
     try {
         const { data, status } = await http.post<CreateThreadResponse>("/forum_threads", bodydata);
         console.log(status);
@@ -40,7 +40,7 @@ const createNewThread = async (bodydata: IThreadInfo) => {
     }
 };
 
-const createNewComment = async (bodydata: ICommentAttribs) => {
+const createNewComment = async (bodydata: INewComment) => {
     try {
         const { data, status } = await http.post<CreateCommentResponse>("/comments", bodydata);
         console.log(status);

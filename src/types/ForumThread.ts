@@ -1,3 +1,9 @@
+export type INewThreadInfo = {
+    title: string;
+    description: string;
+    author_id: number | undefined;
+};
+
 export type IThreadInfo = {
     title: string;
     description: string;
@@ -25,6 +31,12 @@ export type CreateThreadResponse = {
 export type GetSingleThreadResponse = {
     data: IForumThread;
     included: ICommentInfo[];
+};
+
+export type INewComment = {
+    text: string;
+    forum_thread_id: number;
+    author_id: number;
 };
 
 export type ICommentAttribs = {

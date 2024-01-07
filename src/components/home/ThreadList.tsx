@@ -1,5 +1,4 @@
-import "../App.css";
-import { IForumThread } from "../type/ForumThread";
+import { IForumThread } from "../../types/ForumThread";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -13,15 +12,6 @@ type Props = {
 const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
     return (
         <Stack spacing={2}>
-            {/* <div style={{ width: "25vw", margin: "auto", textAlign: "center" }}>
-                <h4>{"Welcome to my forum! Take a look!"}</h4>
-                <ul>
-                    <li>
-                        <Link to="/thread/1">{"Inspirational Quotes"}</Link>
-                        {" by Aiken"}
-                    </li>
-                </ul>
-            </div> */}
             <Typography variant="h6">{"Welcome to my forum! Take a look!"}</Typography>
             <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">

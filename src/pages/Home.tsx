@@ -1,46 +1,41 @@
-import ThreadList from "../components/ThreadList";
+import ThreadList from "../components/home/ThreadList";
+import NewThreadForm from "../components/home/NewThreadForm";
 import ForumThreadService from "../services/ForumThreadService";
-import NoUsernameAlertDialog from "../components/NoUsernameAlertDialog";
-import { IForumThread, IThreadInfo } from "../type/ForumThread";
+import NoUsernameAlertDialog from "../components/misc/NoUsernameAlertDialog";
+import { IForumThread, INewThreadInfo } from "../types/ForumThread";
 import useAuth from "../hooks/useAuth";
 import React from "react";
 
-import {
-    Button,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    Fab,
-    Stack,
-    TextField,
-} from "@mui/material";
+import { Fab, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import Dialog from "@mui/material/Dialog";
+
+const initialFormState = {
+    title: "",
+    description: "",
+    author_id: undefined,
+};
 
 const Home: React.FC = () => {
-    const { auth } = useAuth();
+    const { auth } = useAuth(); // authentication informations
 
+    // for displaying threads list
     const [forumThreads, setForumThreads] = React.useState<IForumThread[]>([]);
 
+    // for opening new thread form component
     const [openThreadForm, setOpenThreadForm] = React.useState(false);
-
-    const [noUsernameAlert, setNoUsernameAlert] = React.useState(false);
-
-    const handleOpenNoUsernameAlert = () => {
-        setNoUsernameAlert(true);
-    };
-
-    const handleCloseNoUsernameAlert = () => {
-        setNoUsernameAlert(false);
-    };
-
     const handleClickOpen = () => {
         setOpenThreadForm(true);
     };
-
     const handleClose = () => {
         setOpenThreadForm(false);
+    };
+
+    // for setting new thread details
+    const [forumForm, setForumform] = React.useState<INewThreadInfo>(initialFormState);
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        console.log(name);
+        setForumform({ ...forumForm, [name]: value });
     };
 
     const handleSubmitNewThread = () => {
@@ -53,10 +48,7 @@ const Home: React.FC = () => {
         const data = {
             title: forumForm.title,
             description: forumForm.description,
-            upvotes: 0,
             author_id: auth.id,
-            created_at: undefined,
-            author: undefined,
         };
         ForumThreadService.createNewThread(data).then((response) => {
             if (response) {
@@ -67,22 +59,16 @@ const Home: React.FC = () => {
         setOpenThreadForm(false);
     };
 
-    const initialFormState = {
-        title: "",
-        description: "",
-        upvotes: 0,
-        created_at: undefined,
-        author: undefined,
+    // for opening no username alert
+    const [noUsernameAlert, setNoUsernameAlert] = React.useState(false);
+    const handleOpenNoUsernameAlert = () => {
+        setNoUsernameAlert(true);
+    };
+    const handleCloseNoUsernameAlert = () => {
+        setNoUsernameAlert(false);
     };
 
-    const [forumForm, setForumform] = React.useState<IThreadInfo>(initialFormState);
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        console.log(name);
-        setForumform({ ...forumForm, [name]: value });
-    };
-
+    // for fetching thread list
     React.useEffect(() => {
         let mounted = true;
         ForumThreadService.getAllThreads().then((fetchedForumThread) => {
@@ -102,52 +88,13 @@ const Home: React.FC = () => {
                 <AddIcon />
                 Add new thread
             </Fab>
-            <Dialog
-                fullScreen
-                open={openThreadForm}
-                onClose={handleClose}
-                PaperProps={{
-                    style: {
-                        backgroundColor: "#212B36",
-                    },
-                }}
-            >
-                <DialogTitle>Create a new thread!</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Talk about anything you want! Share with others whatever you want to share about!
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Title"
-                        name="title"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        value={forumForm.title}
-                        onChange={handleInputChange}
-                    />
-                    <TextField
-                        multiline
-                        rows={10}
-                        margin="dense"
-                        id="name"
-                        label="Description"
-                        name="description"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        value={forumForm.description}
-                        onChange={handleInputChange}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSubmitNewThread}>Submit</Button>
-                </DialogActions>
-            </Dialog>
+            <NewThreadForm
+                openThreadForm={openThreadForm}
+                handleClose={handleClose}
+                forumForm={forumForm}
+                handleInputChange={handleInputChange}
+                handleSubmitNewThread={handleSubmitNewThread}
+            />
             <NoUsernameAlertDialog open={noUsernameAlert} handleClose={handleCloseNoUsernameAlert} />
         </Stack>
     );
