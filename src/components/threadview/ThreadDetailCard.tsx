@@ -1,6 +1,7 @@
+import VotingComponent from "./VotingComponent";
 import { IThreadInfo } from "../../types/ForumThread";
 import React from "react";
-import { Card, Typography, Divider, CardContent } from "@mui/material";
+import { Card, Typography, Divider, CardContent, Grid } from "@mui/material";
 
 type Props = {
     thread: IThreadInfo;
@@ -22,8 +23,14 @@ const ThreadDetailCard: React.FC<Props> = ({ thread }) => {
             <CardContent>
                 <Typography variant="h5">{thread.title}</Typography>
                 <Divider />
-                <Typography variant="subtitle1">{thread.description}</Typography>
-                <Typography>{thread.upvotes + " Upvotes"}</Typography>
+                <Grid container spacing={2} sx={{ padding: "1rem" }}>
+                    <Grid xs={10}>
+                        <Typography variant="subtitle1">{thread.description}</Typography>
+                    </Grid>
+                    <Grid xs={2}>
+                        <VotingComponent />
+                    </Grid>
+                </Grid>
                 <Typography color="textSecondary" gutterBottom>
                     {"Posted by " + thread.author?.name + " on "}
                     {thread.created_at ? new Date(Date.parse(thread.created_at)).toLocaleString() : ""}

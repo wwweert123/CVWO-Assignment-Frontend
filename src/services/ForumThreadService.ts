@@ -8,6 +8,8 @@ import {
     CreateAuthorResponse,
     INewThreadInfo,
     INewComment,
+    LikeStatusInfo,
+    LikeStatusData,
 } from "../types/ForumThread";
 
 const getAllThreads = async () => {
@@ -63,12 +65,23 @@ const createNewAuthor = async (username: string) => {
     }
 };
 
+const getThreadLikesStatus = async (bodydata: LikeStatusInfo) => {
+    try {
+        const { data, status } = await http.get<LikeStatusData>(`/forum_threads/${bodydata.forum_id}/likestatus`);
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getAllThreads,
     createNewThread,
     getSingleThread,
     createNewComment,
     createNewAuthor,
+    getThreadLikesStatus,
 };
 
 export default ForumThreadService;

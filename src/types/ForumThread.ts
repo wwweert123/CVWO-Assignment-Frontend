@@ -63,3 +63,14 @@ export type CreateAuthorResponse = {
     name: string;
     [key: string]: unknown;
 };
+
+export type LikeStatusInfo = {
+    author_id: number;
+    forum_id: number;
+};
+
+export type LikeStatusData = {
+    liked: boolean;
+    disliked: boolean;
+    tally: number;
+};
