@@ -14,7 +14,7 @@ const initialLikeState = {
     tally: 0,
 };
 
-const VotingComponent: React.FC = () => {
+const ThreadVotingComponent: React.FC = () => {
     const { auth } = useAuth();
 
     const forum_id = useParams<{ id?: string }>().id;
@@ -105,4 +105,4 @@ const VotingComponent: React.FC = () => {
     );
 };
 
-export default VotingComponent;
+export default ThreadVotingComponent;

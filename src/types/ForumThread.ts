@@ -69,6 +69,11 @@ export type LikeStatusInfo = {
     forum_id: number;
 };
 
+export type LikeStatusInfoComment = {
+    author_id: number;
+    comment_id: number;
+};
+
 export type LikeStatusData = {
     liked: boolean;
     disliked: boolean;
@@ -78,5 +83,11 @@ export type LikeStatusData = {
 export type LikeActionInfo = {
     author_id: number;
     forum_id: number;
+    user_action: string;
+};
+
+export type LikeActionInfoComment = {
+    author_id: number;
+    comment_id: number;
     user_action: string;
 };

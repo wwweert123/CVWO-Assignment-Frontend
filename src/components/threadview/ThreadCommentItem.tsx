@@ -1,7 +1,7 @@
+import CommentVotingComponent from "./CommentVotingComponent";
 import { ICommentInfo } from "../../types/ForumThread";
-
 import React from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 type Props = {
@@ -36,9 +36,17 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
             }}
         >
             <CardContent>
-                <Typography variant="body2" color="textPrimary" className={classes.commentBody} component="p">
-                    {comment.attributes.text}
-                </Typography>
+                <Grid container spacing={2} sx={{ padding: "1rem" }}>
+                    <Grid xs={10}>
+                        <Typography variant="body2" color="textPrimary" className={classes.commentBody} component="p">
+                            {comment.attributes.text}
+                        </Typography>
+                    </Grid>
+                    <Grid xs={2}>
+                        <CommentVotingComponent comment={comment} />
+                    </Grid>
+                </Grid>
+
                 <Typography color="textSecondary" className={classes.metadata} gutterBottom>
                     {"Posted by " + comment.attributes.author?.name + " on "}
                     {comment.attributes?.created_at

@@ -1,4 +1,4 @@
-import VotingComponent from "./VotingComponent";
+import ThreadVotingComponent from "./ThreadVotingComponent";
 import { IThreadInfo } from "../../types/ForumThread";
 import React from "react";
 import { Card, Typography, Divider, CardContent, Grid } from "@mui/material";
@@ -28,7 +28,7 @@ const ThreadDetailCard: React.FC<Props> = ({ thread }) => {
                         <Typography variant="subtitle1">{thread.description}</Typography>
                     </Grid>
                     <Grid xs={2}>
-                        <VotingComponent />
+                        <ThreadVotingComponent />
                     </Grid>
                 </Grid>
                 <Typography color="textSecondary" gutterBottom>

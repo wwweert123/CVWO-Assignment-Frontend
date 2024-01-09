@@ -11,6 +11,8 @@ import {
     LikeStatusInfo,
     LikeStatusData,
     LikeActionInfo,
+    LikeStatusInfoComment,
+    LikeActionInfoComment,
 } from "../types/ForumThread";
 
 const getAllThreads = async () => {
@@ -68,7 +70,9 @@ const createNewAuthor = async (username: string) => {
 
 const getThreadLikesStatus = async (bodydata: LikeStatusInfo) => {
     try {
-        const { data, status } = await http.get<LikeStatusData>(`/forum_threads/${bodydata.forum_id}/likestatus`);
+        const { data, status } = await http.get<LikeStatusData>(`/forum_threads/${bodydata.forum_id}/likestatus`, {
+            params: { author_id: bodydata.author_id },
+        });
         console.log(status);
         return data;
     } catch (error) {
@@ -86,6 +90,28 @@ const updateLikeAction = async (bodydata: LikeActionInfo) => {
     }
 };
 
+const getCommentLikeStatus = async (bodydata: LikeStatusInfoComment) => {
+    try {
+        const { data, status } = await http.get<LikeStatusData>(`/comments/${bodydata.comment_id}/likestatus`, {
+            params: { author_id: bodydata.author_id },
+        });
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const updateLikeActionComment = async (bodydata: LikeActionInfoComment) => {
+    try {
+        const { data, status } = await http.put<LikeStatusData>(`/comments/${bodydata.comment_id}/like`, bodydata);
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getAllThreads,
     createNewThread,
@@ -94,6 +120,8 @@ const ForumThreadService = {
     createNewAuthor,
     getThreadLikesStatus,
     updateLikeAction,
+    getCommentLikeStatus,
+    updateLikeActionComment,
 };
 
 export default ForumThreadService;
