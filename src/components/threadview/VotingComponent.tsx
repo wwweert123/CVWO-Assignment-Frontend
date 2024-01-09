@@ -1,4 +1,5 @@
 import ForumThreadService from "../../services/ForumThreadService";
+import NoUsernameAlertDialog from "../misc/NoUsernameAlertDialog";
 import useAuth from "../../hooks/useAuth";
 import { LikeStatusData } from "../../types/ForumThread";
 import React from "react";
@@ -34,18 +35,72 @@ const VotingComponent: React.FC = () => {
         });
     };
 
+    const handleClickedDislike = () => {
+        if (!forum_id) {
+            return;
+        }
+        const bodydata = {
+            author_id: auth.id ? auth.id : 0,
+            forum_id: +forum_id,
+            user_action: threadLikeStatus.disliked ? "undislike" : "dislike",
+        };
+        ForumThreadService.updateLikeAction(bodydata).then((response) => {
+            if (response) {
+                setThreadLikeStatus(response);
+            }
+        });
+    };
+
+    const handleClickedLike = () => {
+        if (!auth.id) {
+            handleOpenNoUsernameAlert();
+            return;
+        }
+        if (!forum_id) {
+            return;
+        }
+        const bodydata = {
+            author_id: auth.id ? auth.id : 0,
+            forum_id: +forum_id,
+            user_action: threadLikeStatus.liked ? "unlike" : "like",
+        };
+        ForumThreadService.updateLikeAction(bodydata).then((response) => {
+            if (response) {
+                setThreadLikeStatus(response);
+            }
+        });
+    };
+
+    // For no username alert
+    const [noUsernameAlert, setNoUsernameAlert] = React.useState(false);
+    const handleOpenNoUsernameAlert = () => {
+        setNoUsernameAlert(true);
+    };
+    const handleCloseNoUsernameAlert = () => {
+        setNoUsernameAlert(false);
+    };
+
     React.useEffect(() => {
         fetchLikeStatus();
-    }, []);
+    }, [auth.id]);
     return (
         <>
-            <IconButton aria-labe="like">
+            <IconButton
+                aria-labe="like"
+                onClick={handleClickedLike}
+                color={threadLikeStatus.liked ? "success" : "default"}
+            >
                 <ThumbUpIcon />
             </IconButton>
             <Typography>{threadLikeStatus.tally + " Upvotes"}</Typography>
-            <IconButton aria-labe="dislike">
+            <IconButton
+                aria-labe="dislike"
+                onClick={handleClickedDislike}
+                color={threadLikeStatus.disliked ? "error" : "default"}
+            >
                 <ThumbDownIcon />
             </IconButton>
+            <NoUsernameAlertDialog open={noUsernameAlert} handleClose={handleCloseNoUsernameAlert} />
         </>
     );
 };

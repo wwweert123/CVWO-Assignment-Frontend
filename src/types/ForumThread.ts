@@ -74,3 +74,9 @@ export type LikeStatusData = {
     disliked: boolean;
     tally: number;
 };
+
+export type LikeActionInfo = {
+    author_id: number;
+    forum_id: number;
+    user_action: string;
+};
