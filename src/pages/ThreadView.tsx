@@ -16,6 +16,7 @@ const initialFormState = {
     upvotes: 0,
     created_at: undefined,
     author: undefined,
+    cached_weighted_score: 0,
 };
 
 const ThreadView: React.FC = () => {

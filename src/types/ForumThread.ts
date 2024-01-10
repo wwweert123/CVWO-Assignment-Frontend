@@ -7,9 +7,9 @@ export type INewThreadInfo = {
 export type IThreadInfo = {
     title: string;
     description: string;
-    upvotes: number;
     created_at: string | undefined;
     author: CreateAuthorResponse | undefined;
+    cached_weighted_score: number;
     [key: string]: unknown;
 };
 

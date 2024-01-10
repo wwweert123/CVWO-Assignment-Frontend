@@ -32,7 +32,9 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                                         </Link>
                                     </Button>
                                 </TableCell>
-                                <TableCell align="right">{forumThread.attributes.upvotes}</TableCell>
+                                <TableCell align="right">
+                                    {forumThread.attributes.cached_weighted_score} upvotes
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
