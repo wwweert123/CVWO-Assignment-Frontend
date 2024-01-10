@@ -13,10 +13,20 @@ export type IThreadInfo = {
     [key: string]: unknown;
 };
 
+export type IForumThreadRelationshipsComments = {
+    data: unknown[];
+};
+
+export type IForumThreadRelationships = {
+    comments: IForumThreadRelationshipsComments;
+    [key: string]: unknown;
+};
+
 export type IForumThread = {
     id: number;
     type: string;
     attributes: IThreadInfo;
+    relationships: IForumThreadRelationships;
     [key: string]: unknown;
 };
 

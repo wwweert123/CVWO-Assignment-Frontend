@@ -21,6 +21,15 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                                 <TableCell component="th" scope="row">
                                     <Typography variant="h6">{forumThread.attributes.title}</Typography>
                                     <Typography variant="subtitle1">{forumThread.attributes.description}</Typography>
+                                    <Typography variant="subtitle2">
+                                        {"Posted by on "}
+                                        {forumThread.attributes.created_at
+                                            ? new Date(Date.parse(forumThread.attributes.created_at)).toLocaleString()
+                                            : ""}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                    {forumThread.relationships.comments.data.length} comments
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button variant="contained">
