@@ -56,7 +56,7 @@ function ThreadTaggingComponent() {
                 onChange={handleInputChange}
                 onKeyDown={handleAddition}
             />
-            <TransitionGroup>
+            <TransitionGroup style={{ display: "flex" }}>
                 {tags.map((data) => {
                     return (
                         <Collapse key={data.key}>
