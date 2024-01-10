@@ -1,3 +1,4 @@
+import ThreadTaggingComponent from "./ThreadTaggingComponent";
 import { INewThreadInfo } from "../../types/ForumThread";
 import React from "react";
 
@@ -46,6 +47,7 @@ const NewThreadForm: React.FC<Props> = ({
                     value={forumForm.title}
                     onChange={handleInputChange}
                 />
+
                 <TextField
                     multiline
                     rows={10}
@@ -59,6 +61,7 @@ const NewThreadForm: React.FC<Props> = ({
                     value={forumForm.description}
                     onChange={handleInputChange}
                 />
+                <ThreadTaggingComponent />
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>

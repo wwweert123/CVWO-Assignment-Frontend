@@ -84,7 +84,14 @@ const Home: React.FC = () => {
     return (
         <Stack spacing={2}>
             <ThreadList forumThreads={forumThreads} />
-            <Fab color="primary" aria-label="add" variant="extended" size="medium" onClick={handleClickOpen}>
+            <Fab
+                color="primary"
+                aria-label="add"
+                variant="extended"
+                size="medium"
+                onClick={handleClickOpen}
+                sx={{ position: "absolute", bottom: 20, right: 20 }}
+            >
                 <AddIcon />
                 Add new thread
             </Fab>
