@@ -4,12 +4,21 @@ export type INewThreadInfo = {
     author_id: number | undefined;
 };
 
+export type ITagInfo = {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    taggings_count: number;
+};
+
 export type IThreadInfo = {
     title: string;
     description: string;
     created_at: string | undefined;
     author: CreateAuthorResponse | undefined;
     cached_weighted_score: number;
+    tags: ITagInfo[];
     [key: string]: unknown;
 };
 

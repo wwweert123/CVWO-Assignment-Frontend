@@ -3,7 +3,7 @@ import { IForumThread } from "../../types/ForumThread";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button, Stack } from "@mui/material";
+import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button, Stack, Chip } from "@mui/material";
 
 type Props = {
     forumThreads: IForumThread[];
@@ -30,6 +30,11 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                                 </TableCell>
                                 <TableCell align="right">
                                     {forumThread.relationships.comments.data.length} comments
+                                </TableCell>
+                                <TableCell align="right">
+                                    {forumThread.attributes.tags.map((tag) => (
+                                        <Chip key={tag.id} label={tag.name} sx={{ margin: "0.2rem" }} />
+                                    ))}
                                 </TableCell>
                                 <TableCell align="right">
                                     <Button variant="contained">
