@@ -70,28 +70,32 @@ const NewThreadForm: React.FC<Props> = ({
 
     const [tags, setTags] = React.useState<ITag[]>([]);
 
-    const [newTag, setNewTag] = React.useState<string>("");
-    const handleInputChangeTag = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        console.log(name);
-        setNewTag(value);
-    };
-
     const handleDelete = (tagToDelete: ITag) => {
         console.log(tagToDelete.key);
         setTags((tags) => tags.filter((tag) => tag.key !== tagToDelete.key));
     };
 
-    const handleAddition = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key !== "Enter") {
+    // const handleAddition = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    //     if (event.key !== "Enter") {
+    //         return;
+    //     }
+    //     const tagToInsert = {
+    //         key: tags.length + 1,
+    //         label: newTag,
+    //     };
+    //     setTags([...tags, tagToInsert]);
+    //     setNewTag("");
+    // };
+
+    const handleSelectAddition = (event: object, value: { label: string } | null) => {
+        if (value === null) {
             return;
         }
         const tagToInsert = {
             key: tags.length + 1,
-            label: newTag,
+            label: value.label,
         };
         setTags([...tags, tagToInsert]);
-        setNewTag("");
     };
 
     return (
@@ -138,10 +142,8 @@ const NewThreadForm: React.FC<Props> = ({
                 />
                 <ThreadTaggingComponent
                     tags={tags}
-                    newTag={newTag}
-                    handleAddition={handleAddition}
                     handleDelete={handleDelete}
-                    handleInputChange={handleInputChangeTag}
+                    handleSelectAddition={handleSelectAddition}
                 />
             </DialogContent>
             <DialogActions>

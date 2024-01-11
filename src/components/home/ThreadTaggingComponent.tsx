@@ -1,7 +1,7 @@
 import React from "react";
 import Chip from "@mui/material/Chip";
 import { styled } from "@mui/material/styles";
-import { Collapse, Stack, TextField } from "@mui/material";
+import { Collapse, Stack, TextField, Autocomplete } from "@mui/material";
 import { TransitionGroup } from "react-transition-group";
 
 const ListItem = styled("li")(({ theme }) => ({
@@ -15,25 +15,55 @@ type ITag = {
 
 type Props = {
     tags: ITag[];
-    newTag: string;
-    handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    handleAddition: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     handleDelete: (tagToDelete: ITag) => void;
+    handleSelectAddition: (event: object, value: { label: string } | null) => void;
 };
 
-const ThreadTaggingComponent: React.FC<Props> = ({ tags, newTag, handleInputChange, handleAddition, handleDelete }) => {
+const tagsOptions = [
+    {
+        label: "sports",
+    },
+    {
+        label: "gaming",
+    },
+    {
+        label: "news",
+    },
+    {
+        label: "fashion",
+    },
+    {
+        label: "films",
+    },
+    {
+        label: "trending",
+    },
+    {
+        label: "music",
+    },
+];
+
+const ThreadTaggingComponent: React.FC<Props> = ({ tags, handleDelete, handleSelectAddition }) => {
     return (
         <Stack spacing={2} direction="row" alignItems="center">
-            <TextField
-                margin="dense"
-                id="tag"
-                label="Add Tags"
-                name="tag"
-                type="text"
-                variant="outlined"
-                value={newTag}
-                onChange={handleInputChange}
-                onKeyDown={handleAddition}
+            <Autocomplete
+                disablePortal
+                id="tag-select"
+                // options={tagsOptions}
+                options={tagsOptions.filter((tagOption) => {
+                    let added = false;
+                    tags.forEach((tag) => (added = tag.label === tagOption.label ? true : added));
+                    return !added;
+                })}
+                sx={{ width: 300 }}
+                ListboxProps={{
+                    sx: {
+                        backgroundColor: (theme) => theme.palette.background.default,
+                    },
+                }}
+                filterSelectedOptions
+                renderInput={(params) => <TextField {...params} label="Tags" />}
+                onChange={handleSelectAddition}
             />
             <TransitionGroup style={{ display: "flex" }}>
                 {tags.map((data) => {
