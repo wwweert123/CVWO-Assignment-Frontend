@@ -1,7 +1,8 @@
+import navConfig from "./config";
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 type Props = {
     openNav: boolean;
@@ -21,11 +22,27 @@ const Sidebar: React.FC<Props> = ({ openNav, onCloseNav }) => {
         >
             <Box sx={{ width: 250 }} role="presentation">
                 <List>
-                    {["All mail", "Trash", "Spam"].map((text, index) => (
-                        <ListItem key={text} disablePadding>
+                    {navConfig.map((item) => (
+                        <ListItem
+                            key={item.title}
+                            disablePadding
+                            component={NavLink}
+                            to={item.path}
+                            sx={{
+                                "&.active": {
+                                    bgcolor: "action.selected",
+                                    fontWeight: "fontWeightBold",
+                                },
+                                "&": {
+                                    color: "text.primary",
+                                },
+                            }}
+                        >
                             <ListItemButton>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemIcon>
+                                    <InboxIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={item.title} />
                             </ListItemButton>
                         </ListItem>
                     ))}
