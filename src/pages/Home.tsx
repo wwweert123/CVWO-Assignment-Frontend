@@ -56,7 +56,7 @@ const Home: React.FC = () => {
                 variant="extended"
                 size="medium"
                 onClick={handleClickOpen}
-                sx={{ position: "absolute", bottom: 20, right: 20 }}
+                sx={{ position: "fixed", bottom: 20, right: 20 }}
             >
                 <AddIcon />
                 Add new thread
