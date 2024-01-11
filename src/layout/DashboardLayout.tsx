@@ -1,4 +1,5 @@
 import Header from "../components/misc/Header";
+import Sidebar from "../components/SideNav/Sidebar";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -19,9 +20,12 @@ const Main = styled("div")(() => ({
 }));
 
 const DashboardLayout = () => {
+    const [open, setOpen] = React.useState<boolean>(false);
+
     return (
         <StyledRoot>
-            <Header />
+            <Header onOpenNav={() => setOpen(true)} />
+            <Sidebar openNav={open} onCloseNav={() => setOpen(false)} />
             <Main>
                 <Outlet />
             </Main>

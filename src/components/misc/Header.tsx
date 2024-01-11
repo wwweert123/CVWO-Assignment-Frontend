@@ -12,7 +12,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Stack } from "@mui/material";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-export default function Header() {
+type Props = {
+    onOpenNav: () => void;
+};
+
+const Header: React.FC<Props> = ({ onOpenNav }) => {
     const { auth, setAuth } = useAuth();
 
     const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
@@ -50,7 +54,14 @@ export default function Header() {
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={onOpenNav}
+                        >
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -102,4 +113,6 @@ export default function Header() {
             </Dialog>
         </>
     );
-}
+};
+
+export default Header;
