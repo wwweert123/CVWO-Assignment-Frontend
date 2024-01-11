@@ -2,6 +2,7 @@ export type INewThreadInfo = {
     title: string;
     description: string;
     author_id: number | undefined;
+    tag_list: string;
 };
 
 export type ITagInfo = {
