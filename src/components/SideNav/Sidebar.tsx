@@ -1,6 +1,5 @@
 import navConfig from "./config";
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import React from "react";
 import { NavLink } from "react-router-dom";
 
@@ -39,9 +38,7 @@ const Sidebar: React.FC<Props> = ({ openNav, onCloseNav }) => {
                             }}
                         >
                             <ListItemButton>
-                                <ListItemIcon>
-                                    <InboxIcon />
-                                </ListItemIcon>
+                                <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.title} />
                             </ListItemButton>
                         </ListItem>
