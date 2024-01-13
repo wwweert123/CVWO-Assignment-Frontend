@@ -7,8 +7,10 @@ import React from "react";
 
 import { Fab, Stack } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { useParams } from "react-router-dom";
 
 const Home: React.FC = () => {
+    const tag_topic = useParams<{ tag_topic?: string }>().tag_topic;
     // for displaying threads list
     const [forumThreads, setForumThreads] = React.useState<IForumThread[]>([]);
 
@@ -37,7 +39,7 @@ const Home: React.FC = () => {
     // for fetching thread list
     React.useEffect(() => {
         let mounted = true;
-        ForumThreadService.getAllThreads().then((fetchedForumThread) => {
+        ForumThreadService.getThreads(tag_topic).then((fetchedForumThread) => {
             if (mounted && fetchedForumThread) {
                 setForumThreads(fetchedForumThread.data);
             }
@@ -45,7 +47,7 @@ const Home: React.FC = () => {
         return () => {
             mounted = false;
         };
-    }, [forumThreads.length]);
+    }, [forumThreads.length, tag_topic]);
 
     return (
         <Stack spacing={2}>

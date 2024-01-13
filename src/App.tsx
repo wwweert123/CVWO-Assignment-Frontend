@@ -20,6 +20,7 @@ const App: React.FC = () => {
                                 {/* <Route path="/thread/1" element={<BasicThreadView />} />
                         <Route path="/thread/1/styled" element={<StyledThreadView />} /> */}
                                 <Route path="/" element={<Home />} />
+                                <Route path="/:tag_topic" element={<Home />} />
                                 <Route path="/forum_threads/:id" element={<ThreadView />} />
                             </Route>
                         </Routes>
