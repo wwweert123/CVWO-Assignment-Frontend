@@ -111,3 +111,5 @@ export type LikeActionInfoComment = {
     comment_id: number;
     user_action: string;
 };
+
+export type tagsType = "sports" | "gaming" | "news" | "fashion" | "films" | "trending" | "music";

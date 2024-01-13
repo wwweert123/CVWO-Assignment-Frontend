@@ -4,9 +4,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button, Stack, Chip } from "@mui/material";
+import { brown, deepOrange, green, lime, purple, red, blue } from "@mui/material/colors";
 
 type Props = {
     forumThreads: IForumThread[];
+};
+
+const CHIP_COLOURS = {
+    sports: blue[800],
+    gaming: red[800],
+    news: deepOrange[700],
+    fashion: lime[900],
+    films: brown[800],
+    trending: green[800],
+    music: purple[800],
 };
 
 const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
@@ -33,7 +44,16 @@ const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
                                 </TableCell>
                                 <TableCell align="right">
                                     {forumThread.attributes.tags.map((tag) => (
-                                        <Chip key={tag.id} label={tag.name} sx={{ margin: "0.2rem" }} />
+                                        <Chip
+                                            key={tag.id}
+                                            label={tag.name}
+                                            sx={{
+                                                margin: "0.2rem",
+                                            }}
+                                            style={{
+                                                backgroundColor: CHIP_COLOURS[tag.name as tagsType],
+                                            }}
+                                        />
                                     ))}
                                 </TableCell>
                                 <TableCell align="right">
