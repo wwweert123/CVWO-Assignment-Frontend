@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 type Props = {
     openNav: boolean;
-    onCloseNav: (open: boolean) => void;
+    onCloseNav: () => void;
 };
 
 const Sidebar: React.FC<Props> = ({ openNav, onCloseNav }) => {
@@ -37,7 +37,7 @@ const Sidebar: React.FC<Props> = ({ openNav, onCloseNav }) => {
                                 },
                             }}
                         >
-                            <ListItemButton>
+                            <ListItemButton onClick={onCloseNav}>
                                 <ListItemIcon>{item.icon}</ListItemIcon>
                                 <ListItemText primary={item.title} />
                             </ListItemButton>
