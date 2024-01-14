@@ -15,10 +15,10 @@ import {
     LikeActionInfoComment,
 } from "../types/ForumThread";
 
-const getThreads = async (tag_topic: string | undefined) => {
+const getThreads = async (tag_topic: string | undefined, sort_by: string) => {
     try {
         const { data, status } = await http.get<GetAllThreadsResponse>("/forum_threads", {
-            params: tag_topic ? { tag_topic: tag_topic } : null,
+            params: tag_topic ? { tag_topic: tag_topic, sort_by: sort_by } : { sort_by: sort_by },
         });
         console.log(status);
         return data;

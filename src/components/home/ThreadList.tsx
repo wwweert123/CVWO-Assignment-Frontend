@@ -1,13 +1,28 @@
-import { IForumThread } from "../../types/ForumThread";
+import { IForumThread, tagsType } from "../../types/ForumThread";
 
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Table, TableContainer, TableBody, TableCell, TableRow, Typography, Button, Stack, Chip } from "@mui/material";
+import {
+    Table,
+    TableContainer,
+    TableBody,
+    TableCell,
+    TableRow,
+    Typography,
+    Button,
+    Stack,
+    Chip,
+    Box,
+    Tabs,
+    Tab,
+} from "@mui/material";
 import { brown, deepOrange, green, lime, purple, red, blue } from "@mui/material/colors";
 
 type Props = {
     forumThreads: IForumThread[];
+    tabValue: number;
+    handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
 };
 
 const CHIP_COLOURS = {
@@ -20,10 +35,23 @@ const CHIP_COLOURS = {
     music: purple[800],
 };
 
-const ThreadList: React.FC<Props> = ({ forumThreads }: Props) => {
+function a11yProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        "aria-controls": `simple-tabpanel-${index}`,
+    };
+}
+
+const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab }: Props) => {
     return (
         <Stack spacing={2}>
             <Typography variant="h6">{"Welcome to my forum! Take a look!"}</Typography>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs value={tabValue} onChange={handleChangeTab} aria-label="sorting tab">
+                    <Tab label="Newest" {...a11yProps(0)} />
+                    <Tab label="Hottest" {...a11yProps(1)} />
+                </Tabs>
+            </Box>
             <TableContainer>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableBody>
