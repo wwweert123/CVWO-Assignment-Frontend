@@ -1,5 +1,4 @@
 import { IForumThread, tagsType } from "../../types/ForumThread";
-import useAuth from "../../hooks/useAuth";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -57,18 +56,6 @@ function a11yProps(index: number) {
 }
 
 const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, title_mapping }: Props) => {
-    const { auth } = useAuth();
-    React.useEffect(() => {
-        let mounted = true;
-        ForumThreadService.getThreads(tag_topic, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
-            if (mounted && fetchedForumThread) {
-                setForumThreads(fetchedForumThread.data);
-            }
-        });
-        return () => {
-            mounted = false;
-        };
-    }, [forumThreads.length, tabValue, auth]);
     return (
         <Stack spacing={2}>
             <Typography variant="h6">
@@ -89,7 +76,7 @@ const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, 
                                     <Typography variant="h6">{forumThread.attributes.title}</Typography>
                                     <Typography variant="subtitle1">{forumThread.attributes.description}</Typography>
                                     <Typography variant="subtitle2">
-                                        {"Posted by on "}
+                                        {"Posted on "}
                                         {forumThread.attributes.created_at
                                             ? new Date(Date.parse(forumThread.attributes.created_at)).toLocaleString()
                                             : ""}

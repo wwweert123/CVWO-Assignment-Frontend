@@ -13,6 +13,7 @@ import {
     LikeActionInfo,
     LikeStatusInfoComment,
     LikeActionInfoComment,
+    AuthorCommentsResponse,
 } from "../types/ForumThread";
 
 const getThreads = async (tag_topic: string | undefined, sort_by: string) => {
@@ -126,6 +127,18 @@ const getAuthorThreads = async (author_id: number, sort_by: string) => {
     }
 };
 
+const getAuthorComments = async (author_id: number, sort_by: string) => {
+    try {
+        const { data, status } = await http.get<AuthorCommentsResponse>(`/authors/${author_id}/comments`, {
+            params: { sort_by: sort_by },
+        });
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getThreads,
     createNewThread,
@@ -137,6 +150,7 @@ const ForumThreadService = {
     getCommentLikeStatus,
     updateLikeActionComment,
     getAuthorThreads,
+    getAuthorComments,
 };
 
 export default ForumThreadService;

@@ -65,6 +65,8 @@ export type ICommentAttribs = {
     author: CreateAuthorResponse | undefined;
     author_id: number | undefined;
     created_at: string | undefined;
+    cached_weighted_score: number;
+    forum_thread: IThreadInfo;
 };
 
 export type ICommentInfo = {
@@ -110,6 +112,10 @@ export type LikeActionInfoComment = {
     author_id: number;
     comment_id: number;
     user_action: string;
+};
+
+export type AuthorCommentsResponse = {
+    data: ICommentInfo[];
 };
 
 export type tagsType = "sports" | "gaming" | "news" | "fashion" | "films" | "trending" | "music";

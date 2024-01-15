@@ -4,6 +4,7 @@ import ForumThreadService from "../services/ForumThreadService";
 import NoUsernameAlertDialog from "../components/misc/NoUsernameAlertDialog";
 import useAuth from "../hooks/useAuth";
 import { IForumThread, tagsType } from "../types/ForumThread";
+import CommentListHome from "../components/home/CommentListHome";
 import React from "react";
 
 import { Fab, Stack } from "@mui/material";
@@ -72,12 +73,17 @@ const Home: React.FC = () => {
 
     return (
         <Stack spacing={2}>
-            <ThreadList
-                forumThreads={forumThreads}
-                tabValue={tabValue}
-                handleChangeTab={handleChangeTab}
-                title_mapping={tag_topic}
-            />
+            {tag_topic == "myComments" ? (
+                <CommentListHome tabValue={tabValue} handleChangeTab={handleChangeTab} />
+            ) : (
+                <ThreadList
+                    forumThreads={forumThreads}
+                    tabValue={tabValue}
+                    handleChangeTab={handleChangeTab}
+                    title_mapping={tag_topic}
+                />
+            )}
+
             <Fab
                 color="primary"
                 aria-label="add"
