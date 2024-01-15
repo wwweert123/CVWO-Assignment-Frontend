@@ -114,6 +114,18 @@ const updateLikeActionComment = async (bodydata: LikeActionInfoComment) => {
     }
 };
 
+const getAuthorThreads = async (author_id: number, sort_by: string) => {
+    try {
+        const { data, status } = await http.get<GetAllThreadsResponse>(`/authors/${author_id}/forum_threads`, {
+            params: { sort_by: sort_by },
+        });
+        console.log(status);
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const ForumThreadService = {
     getThreads,
     createNewThread,
@@ -124,6 +136,7 @@ const ForumThreadService = {
     updateLikeAction,
     getCommentLikeStatus,
     updateLikeActionComment,
+    getAuthorThreads,
 };
 
 export default ForumThreadService;

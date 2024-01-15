@@ -2,7 +2,8 @@ import ThreadList from "../components/home/ThreadList";
 import NewThreadForm from "../components/home/NewThreadForm";
 import ForumThreadService from "../services/ForumThreadService";
 import NoUsernameAlertDialog from "../components/misc/NoUsernameAlertDialog";
-import { IForumThread } from "../types/ForumThread";
+import useAuth from "../hooks/useAuth";
+import { IForumThread, tagsType } from "../types/ForumThread";
 import React from "react";
 
 import { Fab, Stack } from "@mui/material";
@@ -15,7 +16,8 @@ const SORT_MAPPING = {
 };
 
 const Home: React.FC = () => {
-    const tag_topic = useParams<{ tag_topic?: string }>().tag_topic;
+    const tag_topic = useParams<{ tag_topic?: tagsType | "myComments" | "myThreads" }>().tag_topic;
+    const { auth } = useAuth();
     // for displaying threads list
     const [forumThreads, setForumThreads] = React.useState<IForumThread[]>([]);
 
@@ -50,19 +52,32 @@ const Home: React.FC = () => {
     // for fetching thread list
     React.useEffect(() => {
         let mounted = true;
-        ForumThreadService.getThreads(tag_topic, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
-            if (mounted && fetchedForumThread) {
-                setForumThreads(fetchedForumThread.data);
-            }
-        });
+        if (tag_topic === "myThreads" && auth.id) {
+            ForumThreadService.getAuthorThreads(auth.id, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+                if (mounted && fetchedForumThread) {
+                    setForumThreads(fetchedForumThread.data);
+                }
+            });
+        } else {
+            ForumThreadService.getThreads(tag_topic, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+                if (mounted && fetchedForumThread) {
+                    setForumThreads(fetchedForumThread.data);
+                }
+            });
+        }
         return () => {
             mounted = false;
         };
-    }, [forumThreads.length, tag_topic, tabValue]);
+    }, [forumThreads.length, tag_topic, tabValue, auth]);
 
     return (
         <Stack spacing={2}>
-            <ThreadList forumThreads={forumThreads} tabValue={tabValue} handleChangeTab={handleChangeTab} />
+            <ThreadList
+                forumThreads={forumThreads}
+                tabValue={tabValue}
+                handleChangeTab={handleChangeTab}
+                title_mapping={tag_topic}
+            />
             <Fab
                 color="primary"
                 aria-label="add"

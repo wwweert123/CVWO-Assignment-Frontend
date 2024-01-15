@@ -1,4 +1,5 @@
 import { IForumThread, tagsType } from "../../types/ForumThread";
+import useAuth from "../../hooks/useAuth";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -23,6 +24,7 @@ type Props = {
     forumThreads: IForumThread[];
     tabValue: number;
     handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
+    title_mapping: tagsType | "myThreads" | "myComments" | undefined;
 };
 
 const CHIP_COLOURS = {
@@ -35,6 +37,18 @@ const CHIP_COLOURS = {
     music: purple[800],
 };
 
+const THREADLIST_TITLE = {
+    myThreads: "All your threads in one place",
+    myComments: "All your comments in one place",
+    sports: "Dont miss out on all the sporting action!",
+    gaming: "Dive into the gaming dimension!",
+    news: "Stay informed!",
+    fashion: "Learn the newest fashion trends!",
+    films: "Talk about theh latest blockbusters!",
+    trending: "Stay on top of latest trends!",
+    music: "Don't miss a beat!",
+};
+
 function a11yProps(index: number) {
     return {
         id: `simple-tab-${index}`,
@@ -42,10 +56,24 @@ function a11yProps(index: number) {
     };
 }
 
-const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab }: Props) => {
+const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, title_mapping }: Props) => {
+    const { auth } = useAuth();
+    React.useEffect(() => {
+        let mounted = true;
+        ForumThreadService.getThreads(tag_topic, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+            if (mounted && fetchedForumThread) {
+                setForumThreads(fetchedForumThread.data);
+            }
+        });
+        return () => {
+            mounted = false;
+        };
+    }, [forumThreads.length, tabValue, auth]);
     return (
         <Stack spacing={2}>
-            <Typography variant="h6">{"Welcome to my forum! Take a look!"}</Typography>
+            <Typography variant="h6">
+                {title_mapping ? THREADLIST_TITLE[title_mapping] : "Welcome to my forum! Do take a look!"}
+            </Typography>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                 <Tabs value={tabValue} onChange={handleChangeTab} aria-label="sorting tab">
                     <Tab label="Newest" {...a11yProps(0)} />
