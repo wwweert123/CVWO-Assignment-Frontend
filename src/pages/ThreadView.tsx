@@ -5,8 +5,7 @@ import CommentInputForm from "../components/threadview/CommentInputForm";
 import ThreadCommentList from "../components/threadview/ThreadCommentList";
 import NoUsernameAlertDialog from "../components/misc/NoUsernameAlertDialog";
 import useAuth from "../hooks/useAuth";
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Container, Stack, Button } from "@mui/material";
 

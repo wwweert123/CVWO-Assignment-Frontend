@@ -1,5 +1,4 @@
-import { ReactNode, createContext, useState, Dispatch, SetStateAction } from "react";
-import React from "react";
+import React, { ReactNode, createContext, useState, Dispatch, SetStateAction } from "react";
 
 type Props = {
     children: ReactNode;

@@ -3,8 +3,7 @@ import palette from "./palette";
 import PropTypes from "prop-types";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider as MUIThemeProvider, createTheme, StyledEngineProvider } from "@mui/material/styles";
-import { useMemo } from "react";
-import React from "react";
+import React, { useMemo } from "react";
 
 ThemeProvider.propTypes = {
     children: PropTypes.node,
