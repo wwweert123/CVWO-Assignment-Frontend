@@ -21,7 +21,6 @@ const initialFormState = {
 };
 
 type ITag = {
-    key: number;
     label: string;
 };
 
@@ -71,8 +70,8 @@ const NewThreadForm: React.FC<Props> = ({
     const [tags, setTags] = React.useState<ITag[]>([]);
 
     const handleDelete = (tagToDelete: ITag) => {
-        console.log(tagToDelete.key);
-        setTags((tags) => tags.filter((tag) => tag.key !== tagToDelete.key));
+        console.log(tagToDelete.label);
+        setTags((tags) => tags.filter((tag) => tag.label !== tagToDelete.label));
     };
 
     // const handleAddition = (event: React.KeyboardEvent<HTMLInputElement>) => {

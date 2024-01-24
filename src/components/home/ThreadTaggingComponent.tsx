@@ -9,7 +9,6 @@ const ListItem = styled("li")(({ theme }) => ({
 }));
 
 type ITag = {
-    key: number;
     label: string;
 };
 
@@ -61,15 +60,14 @@ const ThreadTaggingComponent: React.FC<Props> = ({ tags, handleDelete, handleSel
                         backgroundColor: (theme) => theme.palette.background.default,
                     },
                 }}
-                filterSelectedOptions
                 renderInput={(params) => <TextField {...params} label="Tags" />}
                 onChange={handleSelectAddition}
             />
             <TransitionGroup style={{ display: "flex" }}>
-                {tags.map((data) => {
+                {tags.map((data, id) => {
                     return (
-                        <Collapse key={data.key}>
-                            <ListItem key={data.key}>
+                        <Collapse key={id}>
+                            <ListItem key={id}>
                                 <Chip label={data.label} onDelete={() => handleDelete(data)} />
                             </ListItem>
                         </Collapse>
