@@ -1,4 +1,5 @@
 import useAuth from "../../hooks/useAuth";
+import useInput from "../../hooks/useInput";
 import ForumThreadService from "../../services/ForumThreadService";
 import * as React from "react";
 import { useState } from "react";
@@ -19,8 +20,10 @@ type Props = {
 const Header: React.FC<Props> = ({ onOpenNav }) => {
     const { auth, setAuth } = useAuth();
 
+    const [author, resetAuthor, authorAttribs] = useInput("author", ""); //useState("");
+
     const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
-    const [author, setAuthor] = useState<string>();
+    // const [author, setAuthor] = useState<string>();
 
     const handleOpen = () => {
         setOpenAuthForm(true);
@@ -30,10 +33,10 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
         setOpenAuthForm(false);
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { value } = event.target;
-        setAuthor(value);
-    };
+    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //     const { value } = event.target;
+    //     setAuthor(value);
+    // };
 
     const handleSetUsername = () => {
         if (author) {
@@ -47,6 +50,7 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
             });
         }
         handleClose();
+        resetAuthor();
     };
 
     return (
@@ -103,7 +107,7 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
                         fullWidth
                         variant="filled"
                         value={author}
-                        onChange={handleInputChange}
+                        {...authorAttribs}
                     />
                 </DialogContent>
                 <DialogActions>
