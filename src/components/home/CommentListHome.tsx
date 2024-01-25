@@ -43,8 +43,8 @@ const CommentListHome: React.FC<Props> = ({ tabValue, handleChangeTab }: Props) 
 
     React.useEffect(() => {
         let mounted = true;
-        if (auth.id) {
-            ForumThreadService.getAuthorComments(auth.id, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+        if (auth.accessToken) {
+            ForumThreadService.getAuthorComments(SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
                 if (mounted && fetchedForumThread) {
                     setCommentList(fetchedForumThread.data);
                 }

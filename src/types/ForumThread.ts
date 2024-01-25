@@ -1,7 +1,6 @@
 export type INewThreadInfo = {
     title: string;
     description: string;
-    author_id: number | undefined;
     tag_list: string;
 };
 
@@ -56,7 +55,6 @@ export type GetSingleThreadResponse = {
 export type INewComment = {
     text: string;
     forum_thread_id: number;
-    author_id: number;
 };
 
 export type ICommentAttribs = {
@@ -81,18 +79,15 @@ export type CreateCommentResponse = {
 };
 
 export type CreateAuthorResponse = {
-    id: number;
-    name: string;
+    token: string;
     [key: string]: unknown;
 };
 
 export type LikeStatusInfo = {
-    author_id: number;
     forum_id: number;
 };
 
 export type LikeStatusInfoComment = {
-    author_id: number;
     comment_id: number;
 };
 
@@ -103,13 +98,11 @@ export type LikeStatusData = {
 };
 
 export type LikeActionInfo = {
-    author_id: number;
     forum_id: number;
     user_action: string;
 };
 
 export type LikeActionInfoComment = {
-    author_id: number;
     comment_id: number;
     user_action: string;
 };

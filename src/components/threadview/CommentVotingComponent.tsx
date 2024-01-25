@@ -23,7 +23,6 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
     const [commentLikeStatus, setCommentLikeStatus] = React.useState<LikeStatusData>(initialLikeState);
     const fetchLikeStatus = () => {
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             comment_id: comment.id,
         };
         ForumThreadService.getCommentLikeStatus(bodydata).then((response) => {
@@ -34,8 +33,11 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
     };
 
     const handleClickedDislike = () => {
+        if (!auth.accessToken) {
+            handleOpenNoUsernameAlert();
+            return;
+        }
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             comment_id: comment.id,
             user_action: commentLikeStatus.disliked ? "undislike" : "dislike",
         };
@@ -47,12 +49,11 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
     };
 
     const handleClickedLike = () => {
-        if (!auth.id) {
+        if (!auth.accessToken) {
             handleOpenNoUsernameAlert();
             return;
         }
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             comment_id: comment.id,
             user_action: commentLikeStatus.liked ? "unlike" : "like",
         };
@@ -74,7 +75,7 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
 
     React.useEffect(() => {
         fetchLikeStatus();
-    }, [auth.id]);
+    }, [auth.accessToken]);
     return (
         <>
             <IconButton

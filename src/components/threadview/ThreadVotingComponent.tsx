@@ -25,7 +25,6 @@ const ThreadVotingComponent: React.FC = () => {
             return;
         }
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             forum_id: +forum_id,
         };
         ForumThreadService.getThreadLikesStatus(bodydata).then((response) => {
@@ -40,7 +39,6 @@ const ThreadVotingComponent: React.FC = () => {
             return;
         }
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             forum_id: +forum_id,
             user_action: threadLikeStatus.disliked ? "undislike" : "dislike",
         };
@@ -52,7 +50,7 @@ const ThreadVotingComponent: React.FC = () => {
     };
 
     const handleClickedLike = () => {
-        if (!auth.id) {
+        if (!auth.accessToken) {
             handleOpenNoUsernameAlert();
             return;
         }
@@ -60,7 +58,6 @@ const ThreadVotingComponent: React.FC = () => {
             return;
         }
         const bodydata = {
-            author_id: auth.id ? auth.id : 0,
             forum_id: +forum_id,
             user_action: threadLikeStatus.liked ? "unlike" : "like",
         };
@@ -82,7 +79,7 @@ const ThreadVotingComponent: React.FC = () => {
 
     React.useEffect(() => {
         fetchLikeStatus();
-    }, [auth.id]);
+    }, [auth.author]);
     return (
         <>
             <IconButton

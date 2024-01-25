@@ -21,6 +21,7 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
     const { auth, setAuth } = useAuth();
 
     const [author, resetAuthor, authorAttribs] = useInput("author", ""); //useState("");
+    const [password, setPassword] = useState<string>("");
 
     const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
     // const [author, setAuthor] = useState<string>();
@@ -39,18 +40,16 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
     // };
 
     const handleSetUsername = () => {
-        if (author) {
-            ForumThreadService.createNewAuthor(author).then((response) => {
-                if (response?.name) {
-                    const fetchedAuthor = response.name;
-                    const fetchedId = response.id;
-                    console.log(fetchedAuthor);
-                    setAuth({ author: fetchedAuthor, id: fetchedId });
+        if (author && password !== "") {
+            ForumThreadService.createNewAuthor(author, password).then((response) => {
+                if (response?.token) {
+                    setAuth({ author: author, accessToken: response.token });
                 }
             });
         }
         handleClose();
         resetAuthor();
+        setPassword("");
     };
 
     return (
@@ -108,6 +107,17 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
                         variant="filled"
                         value={author}
                         {...authorAttribs}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="password"
+                        label="password"
+                        name="Password"
+                        type="password"
+                        fullWidth
+                        variant="filled"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </DialogContent>
                 <DialogActions>

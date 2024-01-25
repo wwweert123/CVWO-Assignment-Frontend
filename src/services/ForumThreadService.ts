@@ -15,6 +15,8 @@ import {
     LikeActionInfoComment,
     AuthorCommentsResponse,
 } from "../types/ForumThread";
+// eslint-disable-next-line import/named
+import { AxiosInstance } from "axios";
 
 const getThreads = async (tag_topic: string | undefined, sort_by: string) => {
     try {
@@ -38,9 +40,9 @@ const getSingleThread = async (id: string) => {
     }
 };
 
-const createNewThread = async (bodydata: INewThreadInfo) => {
+const createNewThread = async (bodydata: INewThreadInfo, axiosPrivate: AxiosInstance) => {
     try {
-        const { data, status } = await http.post<CreateThreadResponse>("/forum_threads", bodydata);
+        const { data, status } = await axiosPrivate.post<CreateThreadResponse>("/forum_threads", bodydata);
         console.log(status);
         return data.data as IForumThread;
     } catch (error) {
@@ -58,9 +60,10 @@ const createNewComment = async (bodydata: INewComment) => {
     }
 };
 
-const createNewAuthor = async (username: string) => {
+const createNewAuthor = async (username: string, password: string) => {
     const bodydata = {
         name: username,
+        password: password,
     };
     try {
         const { data, status } = await http.post<CreateAuthorResponse>("authors", bodydata);
@@ -73,9 +76,7 @@ const createNewAuthor = async (username: string) => {
 
 const getThreadLikesStatus = async (bodydata: LikeStatusInfo) => {
     try {
-        const { data, status } = await http.get<LikeStatusData>(`/forum_threads/${bodydata.forum_id}/likestatus`, {
-            params: { author_id: bodydata.author_id },
-        });
+        const { data, status } = await http.get<LikeStatusData>(`/forum_threads/${bodydata.forum_id}/likestatus`, {});
         console.log(status);
         return data;
     } catch (error) {
@@ -95,9 +96,7 @@ const updateLikeAction = async (bodydata: LikeActionInfo) => {
 
 const getCommentLikeStatus = async (bodydata: LikeStatusInfoComment) => {
     try {
-        const { data, status } = await http.get<LikeStatusData>(`/comments/${bodydata.comment_id}/likestatus`, {
-            params: { author_id: bodydata.author_id },
-        });
+        const { data, status } = await http.get<LikeStatusData>(`/comments/${bodydata.comment_id}/likestatus`, {});
         console.log(status);
         return data;
     } catch (error) {
@@ -115,9 +114,9 @@ const updateLikeActionComment = async (bodydata: LikeActionInfoComment) => {
     }
 };
 
-const getAuthorThreads = async (author_id: number, sort_by: string) => {
+const getAuthorThreads = async (sort_by: string) => {
     try {
-        const { data, status } = await http.get<GetAllThreadsResponse>(`/authors/${author_id}/forum_threads`, {
+        const { data, status } = await http.get<GetAllThreadsResponse>(`/authors/forum_threads`, {
             params: { sort_by: sort_by },
         });
         console.log(status);
@@ -127,9 +126,9 @@ const getAuthorThreads = async (author_id: number, sort_by: string) => {
     }
 };
 
-const getAuthorComments = async (author_id: number, sort_by: string) => {
+const getAuthorComments = async (sort_by: string) => {
     try {
-        const { data, status } = await http.get<AuthorCommentsResponse>(`/authors/${author_id}/comments`, {
+        const { data, status } = await http.get<AuthorCommentsResponse>(`/authors/comments`, {
             params: { sort_by: sort_by },
         });
         console.log(status);

@@ -53,8 +53,8 @@ const Home: React.FC = () => {
     // for fetching thread list
     React.useEffect(() => {
         let mounted = true;
-        if (tag_topic === "myThreads" && auth.id) {
-            ForumThreadService.getAuthorThreads(auth.id, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+        if (tag_topic === "myThreads" && auth.accessToken) {
+            ForumThreadService.getAuthorThreads(SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
                 if (mounted && fetchedForumThread) {
                     setForumThreads(fetchedForumThread.data);
                 }

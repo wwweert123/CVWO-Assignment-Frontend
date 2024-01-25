@@ -1,5 +1,6 @@
 import ThreadTaggingComponent from "./ThreadTaggingComponent";
 import ForumThreadService from "../../services/ForumThreadService";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import { IForumThread, INewThreadInfo } from "../../types/ForumThread";
 import React from "react";
@@ -32,6 +33,8 @@ const NewThreadForm: React.FC<Props> = ({
 }) => {
     const { auth } = useAuth(); // authentication informations
 
+    const axiosPrivate = useAxiosPrivate();
+
     // for setting new thread details
     const [forumForm, setForumform] = React.useState<INewThreadInfo>(initialFormState);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +57,9 @@ const NewThreadForm: React.FC<Props> = ({
         const data = {
             title: forumForm.title,
             description: forumForm.description,
-            author_id: auth.id,
             tag_list: tag_list,
         };
-        ForumThreadService.createNewThread(data).then((response) => {
+        ForumThreadService.createNewThread(data, axiosPrivate).then((response) => {
             if (response) {
                 handleSetForumThreads(response);
             }

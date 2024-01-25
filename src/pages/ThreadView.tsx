@@ -42,7 +42,7 @@ const ThreadView: React.FC = () => {
     };
 
     const handleSubmitNewComment = () => {
-        if (auth.author == "" || !auth.id) {
+        if (auth.author == "" || !auth.accessToken) {
             handleClose();
             console.log("No username found");
             handleOpenNoUsernameAlert();
@@ -54,7 +54,6 @@ const ThreadView: React.FC = () => {
         const data = {
             text: commentText,
             forum_thread_id: +thread_id,
-            author_id: auth.id,
         };
         ForumThreadService.createNewComment(data).then((resp) => {
             if (resp) {
