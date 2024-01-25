@@ -1,5 +1,6 @@
 import ForumThreadService from "../../services/ForumThreadService";
 import NoUsernameAlertDialog from "../misc/NoUsernameAlertDialog";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import { ICommentInfo, LikeStatusData } from "../../types/ForumThread";
 import React from "react";
@@ -18,6 +19,8 @@ type Props = {
 };
 
 const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
+    const axiosPrivate = useAxiosPrivate();
+
     const { auth } = useAuth();
 
     const [commentLikeStatus, setCommentLikeStatus] = React.useState<LikeStatusData>(initialLikeState);
@@ -25,7 +28,7 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
         const bodydata = {
             comment_id: comment.id,
         };
-        ForumThreadService.getCommentLikeStatus(bodydata).then((response) => {
+        ForumThreadService.getCommentLikeStatus(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setCommentLikeStatus(response);
             }
@@ -41,7 +44,7 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
             comment_id: comment.id,
             user_action: commentLikeStatus.disliked ? "undislike" : "dislike",
         };
-        ForumThreadService.updateLikeActionComment(bodydata).then((response) => {
+        ForumThreadService.updateLikeActionComment(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setCommentLikeStatus(response);
             }
@@ -57,7 +60,7 @@ const CommentVotingComponent: React.FC<Props> = ({ comment }) => {
             comment_id: comment.id,
             user_action: commentLikeStatus.liked ? "unlike" : "like",
         };
-        ForumThreadService.updateLikeActionComment(bodydata).then((response) => {
+        ForumThreadService.updateLikeActionComment(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setCommentLikeStatus(response);
             }

@@ -1,6 +1,7 @@
 import { ICommentInfo } from "../../types/ForumThread";
 import useAuth from "../../hooks/useAuth";
 import ForumThreadService from "../../services/ForumThreadService";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 import React from "react";
 import { Link } from "react-router-dom";
@@ -37,14 +38,22 @@ const SORT_MAPPING = {
 };
 
 const CommentListHome: React.FC<Props> = ({ tabValue, handleChangeTab }: Props) => {
+    const axiosPrivate = useAxiosPrivate();
+
     const { auth } = useAuth();
 
     const [commentList, setCommentList] = React.useState<ICommentInfo[]>([]);
 
+    const handleDeleteComment = (comment_id: number) => {
+        if (auth.accessToken) {
+            ForumThreadService.deleteComment(comment_id, axiosPrivate);
+        }
+    };
+
     React.useEffect(() => {
         let mounted = true;
         if (auth.accessToken) {
-            ForumThreadService.getAuthorComments(SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+            ForumThreadService.getAuthorComments(SORT_MAPPING[tabValue], axiosPrivate).then((fetchedForumThread) => {
                 if (mounted && fetchedForumThread) {
                     setCommentList(fetchedForumThread.data);
                 }
@@ -92,6 +101,15 @@ const CommentListHome: React.FC<Props> = ({ tabValue, handleChangeTab }: Props) 
                                     </Button>
                                 </TableCell>
                                 <TableCell align="right">{comment.attributes.cached_weighted_score} upvotes</TableCell>
+                                <TableCell align="right">
+                                    <Button
+                                        variant="contained"
+                                        color="error"
+                                        onClick={() => handleDeleteComment(comment.id)}
+                                    >
+                                        Delete
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

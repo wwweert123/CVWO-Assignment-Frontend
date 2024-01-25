@@ -1,6 +1,8 @@
+import IncorrectCredentialsDialog from "./IncorrectCredentialsDialog";
 import useAuth from "../../hooks/useAuth";
 import useInput from "../../hooks/useInput";
 import ForumThreadService from "../../services/ForumThreadService";
+
 import * as React from "react";
 import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
@@ -26,6 +28,8 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
     const [openAuthForm, setOpenAuthForm] = useState<boolean>(false);
     // const [author, setAuthor] = useState<string>();
 
+    const [credentialsAlert, setCredentialsAlert] = useState<boolean>(false);
+
     const handleOpen = () => {
         setOpenAuthForm(true);
     };
@@ -44,10 +48,13 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
             ForumThreadService.createNewAuthor(author, password).then((response) => {
                 if (response?.token) {
                     setAuth({ author: author, accessToken: response.token });
+                    handleClose();
+                } else {
+                    setCredentialsAlert(true);
+                    return;
                 }
             });
         }
-        handleClose();
         resetAuthor();
         setPassword("");
     };
@@ -92,11 +99,15 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
                     },
                 }}
             >
-                <DialogTitle>Enter your username</DialogTitle>
+                <DialogTitle>Enter your username and password</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        All threads and comments created will then be associated with this username
+                        All threads and comments created will then be associated with this username.
                     </DialogContentText>
+                    <strong>
+                        After creating your username and password for the first time, you will need to login with the
+                        same password for the corresponding username
+                    </strong>
                     <TextField
                         margin="dense"
                         id="username"
@@ -125,6 +136,7 @@ const Header: React.FC<Props> = ({ onOpenNav }) => {
                     <Button onClick={handleSetUsername}>Login</Button>
                 </DialogActions>
             </Dialog>
+            <IncorrectCredentialsDialog open={credentialsAlert} handleClose={() => setCredentialsAlert(false)} />
         </>
     );
 };

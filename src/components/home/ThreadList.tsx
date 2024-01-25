@@ -1,3 +1,7 @@
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import useAuth from "../../hooks/useAuth";
+import ForumThreadService from "../../services/ForumThreadService";
+
 import { IForumThread, tagsType } from "../../types/ForumThread";
 
 import React from "react";
@@ -56,6 +60,16 @@ function a11yProps(index: number) {
 }
 
 const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, title_mapping }: Props) => {
+    const { auth } = useAuth();
+
+    const axiosPrivate = useAxiosPrivate();
+
+    const handleDeleteThread = (comment_id: number) => {
+        if (auth.accessToken) {
+            ForumThreadService.deleteThread(comment_id, axiosPrivate);
+        }
+    };
+
     return (
         <Stack spacing={2}>
             <Typography variant="h6">
@@ -112,6 +126,19 @@ const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, 
                                 <TableCell align="right">
                                     {forumThread.attributes.cached_weighted_score} upvotes
                                 </TableCell>
+                                {title_mapping == "myThreads" ? (
+                                    <TableCell align="right">
+                                        <Button
+                                            variant="contained"
+                                            color="error"
+                                            onClick={() => handleDeleteThread(forumThread.id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </TableCell>
+                                ) : (
+                                    <></>
+                                )}
                             </TableRow>
                         ))}
                     </TableBody>

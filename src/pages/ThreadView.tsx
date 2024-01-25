@@ -1,4 +1,5 @@
 import ThreadDetailCard from "../components/threadview/ThreadDetailCard";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import { ICommentInfo, IThreadInfo } from "../types/ForumThread";
 import ForumThreadService from "../services/ForumThreadService";
 import CommentInputForm from "../components/threadview/CommentInputForm";
@@ -20,6 +21,8 @@ const initialFormState = {
 };
 
 const ThreadView: React.FC = () => {
+    const axiosPrivate = useAxiosPrivate();
+
     const { auth } = useAuth();
 
     const thread_id = useParams<{ id?: string }>().id;
@@ -55,7 +58,7 @@ const ThreadView: React.FC = () => {
             text: commentText,
             forum_thread_id: +thread_id,
         };
-        ForumThreadService.createNewComment(data).then((resp) => {
+        ForumThreadService.createNewComment(data, axiosPrivate).then((resp) => {
             if (resp) {
                 setCommentArr([...commentArr, resp.data]);
             }

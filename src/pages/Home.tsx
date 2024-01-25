@@ -2,6 +2,7 @@ import ThreadList from "../components/home/ThreadList";
 import NewThreadForm from "../components/home/NewThreadForm";
 import ForumThreadService from "../services/ForumThreadService";
 import NoUsernameAlertDialog from "../components/misc/NoUsernameAlertDialog";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useAuth from "../hooks/useAuth";
 import { IForumThread, tagsType } from "../types/ForumThread";
 import CommentListHome from "../components/home/CommentListHome";
@@ -17,6 +18,8 @@ const SORT_MAPPING = {
 };
 
 const Home: React.FC = () => {
+    const axiosPrivate = useAxiosPrivate();
+
     const tag_topic = useParams<{ tag_topic?: tagsType | "myComments" | "myThreads" }>().tag_topic;
     const { auth } = useAuth();
     // for displaying threads list
@@ -54,7 +57,7 @@ const Home: React.FC = () => {
     React.useEffect(() => {
         let mounted = true;
         if (tag_topic === "myThreads" && auth.accessToken) {
-            ForumThreadService.getAuthorThreads(SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
+            ForumThreadService.getAuthorThreads(SORT_MAPPING[tabValue], axiosPrivate).then((fetchedForumThread) => {
                 if (mounted && fetchedForumThread) {
                     setForumThreads(fetchedForumThread.data);
                 }

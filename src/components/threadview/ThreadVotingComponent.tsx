@@ -1,5 +1,6 @@
 import ForumThreadService from "../../services/ForumThreadService";
 import NoUsernameAlertDialog from "../misc/NoUsernameAlertDialog";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
 import { LikeStatusData } from "../../types/ForumThread";
 import React from "react";
@@ -15,6 +16,8 @@ const initialLikeState = {
 };
 
 const ThreadVotingComponent: React.FC = () => {
+    const axiosPrivate = useAxiosPrivate();
+
     const { auth } = useAuth();
 
     const forum_id = useParams<{ id?: string }>().id;
@@ -27,7 +30,7 @@ const ThreadVotingComponent: React.FC = () => {
         const bodydata = {
             forum_id: +forum_id,
         };
-        ForumThreadService.getThreadLikesStatus(bodydata).then((response) => {
+        ForumThreadService.getThreadLikesStatus(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setThreadLikeStatus(response);
             }
@@ -42,7 +45,7 @@ const ThreadVotingComponent: React.FC = () => {
             forum_id: +forum_id,
             user_action: threadLikeStatus.disliked ? "undislike" : "dislike",
         };
-        ForumThreadService.updateLikeAction(bodydata).then((response) => {
+        ForumThreadService.updateLikeAction(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setThreadLikeStatus(response);
             }
@@ -61,7 +64,7 @@ const ThreadVotingComponent: React.FC = () => {
             forum_id: +forum_id,
             user_action: threadLikeStatus.liked ? "unlike" : "like",
         };
-        ForumThreadService.updateLikeAction(bodydata).then((response) => {
+        ForumThreadService.updateLikeAction(bodydata, axiosPrivate).then((response) => {
             if (response) {
                 setThreadLikeStatus(response);
             }
