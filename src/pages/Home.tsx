@@ -53,25 +53,25 @@ const Home: React.FC = () => {
         setTabValue(newValue as 0 | 1);
     };
 
-    // for fetching thread list
-    React.useEffect(() => {
-        let mounted = true;
+    const refreshThreads = () => {
         if (tag_topic === "myThreads" && auth.accessToken) {
             ForumThreadService.getAuthorThreads(SORT_MAPPING[tabValue], axiosPrivate).then((fetchedForumThread) => {
-                if (mounted && fetchedForumThread) {
+                if (fetchedForumThread) {
                     setForumThreads(fetchedForumThread.data);
                 }
             });
         } else {
             ForumThreadService.getThreads(tag_topic, SORT_MAPPING[tabValue]).then((fetchedForumThread) => {
-                if (mounted && fetchedForumThread) {
+                if (fetchedForumThread) {
                     setForumThreads(fetchedForumThread.data);
                 }
             });
         }
-        return () => {
-            mounted = false;
-        };
+    };
+
+    // for fetching thread list
+    React.useEffect(() => {
+        refreshThreads();
     }, [forumThreads.length, tag_topic, tabValue, auth]);
 
     return (
@@ -84,6 +84,7 @@ const Home: React.FC = () => {
                     tabValue={tabValue}
                     handleChangeTab={handleChangeTab}
                     title_mapping={tag_topic}
+                    refreshThreads={refreshThreads}
                 />
             )}
 

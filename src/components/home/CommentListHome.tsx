@@ -37,6 +37,10 @@ const SORT_MAPPING = {
     1: "cached_weighted_score",
 };
 
+function timeout(delay: number) {
+    return new Promise((res) => setTimeout(res, delay));
+}
+
 const CommentListHome: React.FC<Props> = ({ tabValue, handleChangeTab }: Props) => {
     const axiosPrivate = useAxiosPrivate();
 
@@ -44,24 +48,26 @@ const CommentListHome: React.FC<Props> = ({ tabValue, handleChangeTab }: Props) 
 
     const [commentList, setCommentList] = React.useState<ICommentInfo[]>([]);
 
-    const handleDeleteComment = (comment_id: number) => {
+    const handleDeleteComment = async (comment_id: number) => {
         if (auth.accessToken) {
             ForumThreadService.deleteComment(comment_id, axiosPrivate);
+            await timeout(3000);
+            refreshList();
         }
     };
 
-    React.useEffect(() => {
-        let mounted = true;
+    const refreshList = () => {
         if (auth.accessToken) {
             ForumThreadService.getAuthorComments(SORT_MAPPING[tabValue], axiosPrivate).then((fetchedForumThread) => {
-                if (mounted && fetchedForumThread) {
+                if (fetchedForumThread) {
                     setCommentList(fetchedForumThread.data);
                 }
             });
         }
-        return () => {
-            mounted = false;
-        };
+    };
+
+    React.useEffect(() => {
+        refreshList();
     }, [tabValue, auth]);
     return (
         <Stack spacing={2}>

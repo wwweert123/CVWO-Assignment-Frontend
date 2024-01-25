@@ -28,6 +28,7 @@ type Props = {
     tabValue: number;
     handleChangeTab: (event: React.SyntheticEvent, newValue: number) => void;
     title_mapping: tagsType | "myThreads" | "myComments" | undefined;
+    refreshThreads: () => void;
 };
 
 const CHIP_COLOURS = {
@@ -59,14 +60,26 @@ function a11yProps(index: number) {
     };
 }
 
-const ThreadList: React.FC<Props> = ({ forumThreads, tabValue, handleChangeTab, title_mapping }: Props) => {
+function timeout(delay: number) {
+    return new Promise((res) => setTimeout(res, delay));
+}
+
+const ThreadList: React.FC<Props> = ({
+    forumThreads,
+    tabValue,
+    handleChangeTab,
+    title_mapping,
+    refreshThreads,
+}: Props) => {
     const { auth } = useAuth();
 
     const axiosPrivate = useAxiosPrivate();
 
-    const handleDeleteThread = (comment_id: number) => {
+    const handleDeleteThread = async (comment_id: number) => {
         if (auth.accessToken) {
             ForumThreadService.deleteThread(comment_id, axiosPrivate);
+            await timeout(3000);
+            refreshThreads();
         }
     };
 
